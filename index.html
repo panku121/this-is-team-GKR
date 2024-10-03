@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team GKR New T-Shirt Form. | Deepak Pandey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            background-image: repeating-radial-gradient(circle at center center, rgba(230, 46, 11,0.25) 0px, rgba(230, 46, 11,0.25) 1px,transparent 1px, transparent 3px),linear-gradient(45deg, hsl(306,7%,96%) 0%,hsl(306,7%,96%) 78%);
+            background-size: 14px 14px;
+        }
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 200px;
+            border-radius: 50%;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #ffcc00;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            color: #333;
+        }
+        input[type="text"]::placeholder, input[type="number"]::placeholder {
+            color: #aaa;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            color: black;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #e6b800;
+        }
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #ffcc00;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+            input[type="text"], input[type="number"], select, input[type="submit"] {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <!-- Add logo image -->
+    <img src="./gkr.jpg" alt="Team Logo" class="logo">
+    
+    <h2>New Dress - Team GKR</h2>
+    <form id="cricketForm">
+        <div class="form-group">
+            <label for="playerName">Your Name</label>
+            <input type="text" id="playerName" name="playerName" placeholder="Enter Your Name" required>
+        </div>
+        <div class="form-group">
+            <label for="tShirtSize">T-Shirt Size</label>
+            <select id="tShirtSize" name="tShirtSize" required>
+                <option value="">T-Shirt Size</option>
+                <option value="Small-38">Small (38)</option>
+                <option value="Medium-40">Medium (40)</option>
+                <option value="Large-42">Large (42)</option>
+                <option value="XL-44">XL (44)</option>
+                <option value="XXL-46">XXL (46)</option>
+                <option value="XXL-48">XXXL (48)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nameOnTShirt">Name on T-Shirt</label>
+            <input type="text" id="nameOnTShirt" name="nameOnTShirt" placeholder="Name on T-Shirt" required>
+        </div>
+        <div class="form-group">
+            <label for="numberOnTShirt">Number on T-Shirt</label>
+            <input type="number" id="numberOnTShirt" name="numberOnTShirt" placeholder="Number on T-Shirt" required>
+        </div>
+        <div class="form-group">
+            <label for="sleeveType">Sleeve Length</label>
+            <select id="sleeveType" name="sleeveType" required>
+                <option value="">Select Sleeve Type</option>
+                <option value="Half">Half</option>
+                <option value="Full">Full</option>
+            </select>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+    <!-- Loader -->
+    <div class="loader" id="loader"></div>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzWGyW-oX8bE52HZG6cladoCkT6eBQUpZx7-ioJmvkMZfmKIvpRP3thXIFhdBxkAi1-/exec';
+    const form = document.getElementById('cricketForm');
+    const loader = document.getElementById('loader');
+    const submitButton = form.querySelector('input[type="submit"]');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        loader.style.display = 'block';  // Show loader
+        submitButton.disabled = true;    // Disable submit button
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            .then(response => {
+                alert("Thank you! " + `${document.getElementById('playerName').value}` + " Your form is submitted successfully.");
+            })
+            .then(() => {
+                loader.style.display = 'none';  // Hide loader
+                submitButton.disabled = false;  // Re-enable submit button
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                loader.style.display = 'none';  // Hide loader on error
+                submitButton.disabled = false;  // Re-enable submit button
+            });
+    });
+</script>
+
+</body>
+</html>
